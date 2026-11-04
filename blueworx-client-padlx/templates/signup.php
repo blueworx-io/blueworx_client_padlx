@@ -49,8 +49,8 @@ part( 'document-start', array( 'secure' => true ) );
 </section>
 
 <div class="bwpx-main">
-	<form class="bwpx-steps" id="bwpx-form" method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
-		<input type="hidden" name="action" value="<?php echo esc_attr( ACTION ); ?>">
+	<form class="bwpx-steps" id="bwpx-form" method="post" action="<?php echo esc_url( get_permalink( get_queried_object_id() ) ); ?>">
+		<input type="hidden" name="bwpx_action" value="<?php echo esc_attr( ACTION ); ?>">
 		<?php wp_nonce_field( ACTION, '_bwpx_nonce' ); ?>
 		<div class="bwpx-hp" aria-hidden="true">
 			<label>Leave this empty <input type="text" name="bwpx_website" tabindex="-1" autocomplete="off"></label>

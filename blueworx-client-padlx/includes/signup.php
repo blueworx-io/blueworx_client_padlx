@@ -9,12 +9,19 @@ defined( 'ABSPATH' ) || exit;
 
 const ACTION = 'bwpx_founding_signup';
 
-add_action( 'admin_post_nopriv_' . ACTION, __NAMESPACE__ . '\handle_signup' );
-add_action( 'admin_post_' . ACTION, __NAMESPACE__ . '\handle_signup' );
+// The form posts to its own page, because the site sends logged-out visitors away from wp-admin.
+add_action(
+	'template_redirect',
+	function () {
+		if ( isset( $_POST['bwpx_action'] ) && ACTION === $_POST['bwpx_action'] && TEMPLATE_SIGNUP === current_template() ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing -- checked in handle_signup().
+			handle_signup();
+		}
+	},
+	1
+);
 
 function handle_signup() {
-	$back = wp_get_referer() ? wp_get_referer() : page_url( 'signup' );
-	$back = remove_query_arg( 'bwpx', $back );
+	$back = get_permalink( get_queried_object_id() );
 
 	if ( ! isset( $_POST['_bwpx_nonce'] ) || ! wp_verify_nonce( sanitize_key( $_POST['_bwpx_nonce'] ), ACTION ) ) {
 		wp_safe_redirect( add_query_arg( 'bwpx', 'expired', $back ) . '#bwpx-form' );
