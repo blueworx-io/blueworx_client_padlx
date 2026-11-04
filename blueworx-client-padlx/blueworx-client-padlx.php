@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       BlueWorx Client | PadlX
  * Description:       PadlX founding member sign-up and welcome pages, and founding renewal dates.
- * Version:           1.3.1
+ * Version:           1.4.0
  * Requires at least: 6.3
  * Requires PHP:      7.4
  * Author:            BlueWorx
@@ -14,7 +14,7 @@ namespace BlueWorx\PadlX;
 
 defined( 'ABSPATH' ) || exit;
 
-const VERSION = '1.3.1';
+const VERSION = '1.4.0';
 const FILE    = __FILE__;
 
 // SureCart Founding prices, used until others are saved in settings.

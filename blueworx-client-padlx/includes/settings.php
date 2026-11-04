@@ -18,6 +18,7 @@ function settings() {
 			'monthly_checkout_url' => '',
 			'notify_email'         => 'info@padlx.com.au',
 			'whatsapp_url'         => '',
+			'playtomic_url'        => '',
 			'start_date_on'        => false,
 			'start_date'           => '',
 			'annual_price_id'      => PRICE_ANNUAL,
@@ -61,6 +62,7 @@ function sanitize_settings( $input ) {
 		'monthly_checkout_url' => esc_url_raw( trim( $input['monthly_checkout_url'] ?? '' ) ),
 		'notify_email'         => sanitize_email( $input['notify_email'] ?? '' ),
 		'whatsapp_url'         => esc_url_raw( trim( $input['whatsapp_url'] ?? '' ) ),
+		'playtomic_url'        => esc_url_raw( trim( $input['playtomic_url'] ?? '' ) ),
 		'start_date_on'        => ! empty( $input['start_date_on'] ),
 		'start_date'           => preg_match( '/^\d{4}-\d{2}-\d{2}$/', $date ) ? $date : '',
 		'annual_price_id'      => sanitize_text_field( trim( $input['annual_price_id'] ?? '' ) ),
@@ -119,6 +121,7 @@ function render_settings_page() {
 				$field( 'annual_checkout_url', __( 'Annual checkout link', 'blueworx-client-padlx' ), 'url', __( 'Leave blank to use the $2,519 annual Founding price.', 'blueworx-client-padlx' ) );
 				$field( 'monthly_checkout_url', __( 'Monthly checkout link', 'blueworx-client-padlx' ), 'url', __( 'Leave blank to use the $229 monthly Founding price.', 'blueworx-client-padlx' ) );
 				$field( 'notify_email', __( 'Send new sign-ups to', 'blueworx-client-padlx' ), 'email' );
+				$field( 'playtomic_url', __( 'Playtomic app link', 'blueworx-client-padlx' ), 'url', __( 'The "Download the Playtomic app" button on the welcome page is hidden until this is set.', 'blueworx-client-padlx' ) );
 				$field( 'whatsapp_url', __( 'WhatsApp group link', 'blueworx-client-padlx' ), 'url', __( 'The "Join on WhatsApp" button on the welcome page is hidden until this is set.', 'blueworx-client-padlx' ) );
 				?>
 			</table>

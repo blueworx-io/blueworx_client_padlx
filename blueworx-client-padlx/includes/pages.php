@@ -219,6 +219,17 @@ function asset( $file ) {
 	return URL . 'assets/img/' . $file;
 }
 
+/**
+ * A welcome page step's button. Until its link is saved, members see nothing and admins see a reminder.
+ */
+function welcome_button( $url, $text, $setting_label ) {
+	if ( $url ) {
+		printf( '<a class="bwpx-btn" href="%s" target="_blank" rel="noopener">%s</a>', esc_url( $url ), esc_html( $text ) );
+	} elseif ( current_user_can( 'manage_options' ) ) {
+		printf( '<p class="bwpx-small">Button hidden from members: add the %s under Users → Founding Members.</p>', esc_html( $setting_label ) );
+	}
+}
+
 function part( $name, array $args = array() ) {
 	extract( $args ); // phpcs:ignore WordPress.PHP.DontExtract
 	include DIR . 'templates/parts/' . $name . '.php';

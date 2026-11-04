@@ -7,10 +7,9 @@ namespace BlueWorx\PadlX;
 
 defined( 'ABSPATH' ) || exit;
 
-$member   = welcome_member();
-$email    = $member ? $member->user_email : '';
-$number   = $member ? $member->ID : 0;
-$whatsapp = setting( 'whatsapp_url' );
+$member = welcome_member();
+$email  = $member ? $member->user_email : '';
+$number = $member ? $member->ID : 0;
 
 $phases = array(
 	array( 'PHASE 1 · NOVEMBER', 'Burleigh Heads', "Four outdoor courts. You're on first." ),
@@ -58,14 +57,13 @@ part( 'document-start', array( 'secure' => false ) );
 		<span class="bwpx-num bwpx-eyebrow" aria-hidden="true">02</span>
 		<h2 class="bwpx-h3">Get set up on Playtomic</h2>
 		<p class="bwpx-body bwpx-muted">Sign in with the same email so your member rates, booking window and any wallet credit land in the right place.</p>
+			<?php welcome_button( setting( 'playtomic_url' ), 'Download the Playtomic app', 'Playtomic app link' ); ?>
 	</div>
 	<div class="bwpx-next__card">
 		<span class="bwpx-num bwpx-eyebrow" aria-hidden="true">03</span>
 		<h2 class="bwpx-h3">Join the members' group</h2>
 		<p class="bwpx-body bwpx-muted">Founding member news, events and games, straight to your phone.</p>
-		<?php if ( $whatsapp ) : ?>
-			<a class="bwpx-btn" href="<?php echo esc_url( $whatsapp ); ?>" target="_blank" rel="noopener">Join on WhatsApp</a>
-		<?php endif; ?>
+		<?php welcome_button( setting( 'whatsapp_url' ), 'Join on WhatsApp', 'WhatsApp group link' ); ?>
 	</div>
 </section>
 
