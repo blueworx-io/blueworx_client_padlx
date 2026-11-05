@@ -1,7 +1,7 @@
 === BlueWorx Client | PadlX ===
 Requires at least: 6.3
 Requires PHP: 7.4
-Stable tag: 1.4.0
+Stable tag: 1.4.1
 
 PadlX founding member sign-up and welcome pages, and founding renewal dates.
 
@@ -17,6 +17,9 @@ Founding members can be filtered on the Users screen. Checkout links, the notifi
 Membership start date (same screen): founding members who pay before the start date have their first renewal moved to one month or one year after it, so they are not billed again until a full period after opening. Nobody is charged extra. Existing founding members can be previewed and moved with one button, and every change is logged.
 
 == Changelog ==
+
+= 1.4.1 =
+* The sign-up page fills in the email from the payment email link, so members pay with the address they reserved with.
 
 = 1.4.0 =
 * Welcome page now has a Download the Playtomic app button and a Join on WhatsApp button. Add both links under Users → Founding Members.
