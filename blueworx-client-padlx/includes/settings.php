@@ -147,6 +147,8 @@ function render_settings_page() {
 			<?php submit_button(); ?>
 		</form>
 
+		<?php render_number_list_form(); ?>
+
 		<?php render_start_date_tools(); ?>
 	</div>
 	<?php

@@ -80,6 +80,7 @@ function save_member( array $values ) {
 	update_user_meta( $user_id, META_ANSWERS, $values );
 	update_user_meta( $user_id, META_PLAN, $values['plan'] );
 	update_user_meta( $user_id, META_DATE, time() );
+	assign_number_from_list( $user_id, $email );
 	return $user_id;
 }
 

@@ -1,7 +1,7 @@
 === BlueWorx Client | PadlX ===
 Requires at least: 6.3
 Requires PHP: 7.4
-Stable tag: 1.6.0
+Stable tag: 1.7.0
 
 PadlX founding member sign-up and welcome pages, founding renewal dates, the checkout schedule, the under-18 pop-up and the documents email.
 
@@ -17,6 +17,9 @@ Founding members can be filtered on the Users screen. Checkout links, the notifi
 Membership start date (same screen): founding members who pay before the start date have their first renewal moved to one month or one year after it, so they are not billed again until a full period after opening. Nobody is charged extra. Existing founding members can be previewed and moved with one button, and every change is logged.
 
 == Changelog ==
+
+= 1.7.0 =
+* Paste the founding member list under Users → Founding Members, and each member gets their number automatically when they sign up with that email.
 
 = 1.6.0 =
 * Each user now has a member number field on their profile, and each number can only be used once. The welcome page, sign-up email and Users list show this number instead of a website number.
