@@ -23,26 +23,62 @@ function memberships() {
 	);
 }
 
+const FOUNDING_PRODUCT = '384835d8-569b-4e93-8519-55506ba75e6d';
+const UNDER_18_TEXT    = 'You must be over 18 to register for a membership, or have a parent or legal guardian do so on your behalf.';
+
 function settings() {
 	$saved = get_option( OPTION, array() );
-	return wp_parse_args(
+	$all   = wp_parse_args(
 		is_array( $saved ) ? $saved : array(),
 		array(
 			'terms_url'     => home_url( '/terms-and-conditions/' ),
 			'privacy_url'   => home_url( '/privacy-policy/' ),
-			'under_18_text' => '[PLACEHOLDER: wording to come from PADLX] Under-18s need a parent or guardian to complete their membership.',
+			'under_18_text' => UNDER_18_TEXT,
 			'schedules'     => array(),
 		)
 	);
+	// The first version could save its placeholder wording, so replace that with the final wording.
+	if ( '' === trim( $all['under_18_text'] ) || false !== strpos( $all['under_18_text'], '[PLACEHOLDER' ) ) {
+		$all['under_18_text'] = UNDER_18_TEXT;
+	}
+	return $all;
+}
+
+/**
+ * Annexure A of the Membership Terms and Conditions dated 6 November 2026.
+ */
+function founding_schedule() {
+	$rows = array(
+		'Price (GST-inclusive)'                      => '$229/month, or $2,519/year paid annually (1 month free)',
+		'Minimum term'                               => '12 months, either payment method',
+		'Venue access &amp; availability'            => 'Both venues, plus all future PadlX venues — capped at 150 members total',
+		'Court hire discount'                        => 'Free off-peak; $15 peak per hour your share',
+		'Advance booking window'                     => '21 days',
+		'Food, beverage &amp; pro shop'              => '20% off at any PadlX venue',
+		'Wellness centre (ice baths, infrared sauna)' => 'Unlimited access, any time',
+		'Club lounge / deck'                         => 'Yes — Arundel and future venues',
+		'Events'                                     => 'Exclusive founder-only events; priority spectator passes for major competitions',
+		'Other perks'                                => 'Welcome gift; numbered founding member recognition; rate locked for life of membership',
+		'Court booking cancellation'                 => 'Up to 24 hours before play',
+		'Membership cancellation'                    => 'Part 4 and Part 7 apply',
+	);
+	$html = '<table>';
+	foreach ( $rows as $label => $value ) {
+		$html .= '<tr><td><strong>' . $label . '</strong></td><td>' . $value . '</td></tr>';
+	}
+	return $html . '</table><p>Full Terms and Conditions apply — see the PadlX Membership Terms and Conditions. This Schedule may be updated by PadlX from time to time in accordance with clause 12.</p>';
 }
 
 function schedule_text( $product_id ) {
 	$schedules = settings()['schedules'];
-	if ( ! empty( $schedules[ $product_id ] ) ) {
+	if ( ! empty( $schedules[ $product_id ] ) && false === strpos( $schedules[ $product_id ], '[PLACEHOLDER' ) ) {
 		return $schedules[ $product_id ];
 	}
+	if ( FOUNDING_PRODUCT === $product_id ) {
+		return founding_schedule();
+	}
 	$name = memberships()[ $product_id ] ?? 'this membership';
-	return '[PLACEHOLDER] The membership schedule for ' . $name . ' will appear here once it has been finalised.';
+	return 'The membership schedule for ' . $name . ' is not available yet.';
 }
 
 add_action(

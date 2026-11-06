@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       PADLX Site Fixes
  * Description:       Membership schedule and tick box at checkout, under-18 pop-up, and the documents email after purchase.
- * Version:           1.0.0
+ * Version:           1.0.1
  * Requires at least: 6.3
  * Requires PHP:      7.4
  * Author:            BlueWorx
@@ -14,7 +14,7 @@ namespace PADLX\SiteFixes;
 
 defined( 'ABSPATH' ) || exit;
 
-const VERSION = '1.0.0';
+const VERSION = '1.0.1';
 
 define( __NAMESPACE__ . '\DIR', plugin_dir_path( __FILE__ ) );
 define( __NAMESPACE__ . '\URL', plugin_dir_url( __FILE__ ) );

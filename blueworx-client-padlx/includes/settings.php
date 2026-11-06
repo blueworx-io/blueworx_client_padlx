@@ -11,7 +11,7 @@ const OPTION = 'bwpx_settings';
 
 function settings() {
 	$saved = get_option( OPTION, array() );
-	return wp_parse_args(
+	$all   = wp_parse_args(
 		is_array( $saved ) ? $saved : array(),
 		array(
 			'annual_checkout_url'  => '',
@@ -25,6 +25,11 @@ function settings() {
 			'monthly_price_id'     => PRICE_MONTHLY,
 		)
 	);
+	// The PADLX WhatsApp community, unless a different link has been saved on the settings screen.
+	if ( '' === $all['whatsapp_url'] ) {
+		$all['whatsapp_url'] = 'https://chat.whatsapp.com/HIqvYY8YDAf2bwqwizfzaC';
+	}
+	return $all;
 }
 
 function setting( $key ) {

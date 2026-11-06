@@ -1,7 +1,6 @@
 <?php
 /**
  * After a membership purchase: emails the member the T&Cs, Privacy Policy and their schedule.
- * Also keeps the placeholder T&C and Privacy pages out of search.
  */
 
 namespace PADLX\SiteFixes;
@@ -56,14 +55,3 @@ function document_email( $name, $product_id ) {
 	<?php
 	return ob_get_clean();
 }
-
-add_filter(
-	'wp_robots',
-	function ( $robots ) {
-		if ( is_page( array( 'terms-and-conditions', 'privacy-policy' ) ) ) {
-			$robots['noindex']  = true;
-			$robots['nofollow'] = true;
-		}
-		return $robots;
-	}
-);
