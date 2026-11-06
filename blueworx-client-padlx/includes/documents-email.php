@@ -3,7 +3,7 @@
  * After a membership purchase: emails the member the T&Cs, Privacy Policy and their schedule.
  */
 
-namespace PADLX\SiteFixes;
+namespace BlueWorx\PadlX\Documents;
 
 use SureCart\Models\Customer;
 

@@ -1,9 +1,9 @@
 <?php
 /**
- * Settings screen (Settings → PADLX Site Fixes): document links, schedules, under-18 wording, and the record of acceptances and emails.
+ * Settings screen (Settings → PADLX Membership Documents): document links, schedules, under-18 wording, and the record of acceptances and emails.
  */
 
-namespace PADLX\SiteFixes;
+namespace BlueWorx\PadlX\Documents;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -128,7 +128,7 @@ function add_log_row( $what, $email, $order, $detail ) {
 add_action(
 	'admin_menu',
 	function () {
-		add_options_page( 'PADLX Site Fixes', 'PADLX Site Fixes', 'manage_options', 'padlx-site-fixes', __NAMESPACE__ . '\render_settings_page' );
+		add_options_page( 'PADLX Membership Documents', 'PADLX Membership Documents', 'manage_options', 'padlx-membership-documents', __NAMESPACE__ . '\render_settings_page' );
 	}
 );
 
@@ -136,7 +136,7 @@ function render_settings_page() {
 	$s = settings();
 	?>
 	<div class="wrap">
-		<h1>PADLX Site Fixes</h1>
+		<h1>PADLX Membership Documents</h1>
 		<form method="post" action="options.php">
 			<?php settings_fields( 'padlx_sf' ); ?>
 

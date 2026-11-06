@@ -4,7 +4,10 @@
  * and records the acceptance when the order completes.
  */
 
-namespace PADLX\SiteFixes;
+namespace BlueWorx\PadlX\Documents;
+
+use const BlueWorx\PadlX\URL;
+use const BlueWorx\PadlX\VERSION;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -19,8 +22,8 @@ add_filter(
 			return $content;
 		}
 
-		wp_enqueue_style( 'padlx-sf', URL . 'assets/site-fixes.css', array(), VERSION );
-		wp_enqueue_script( 'padlx-sf-checkout', URL . 'assets/checkout.js', array(), VERSION, true );
+		wp_enqueue_style( 'padlx-sf', URL . 'assets/css/membership-documents.css', array(), VERSION );
+		wp_enqueue_script( 'padlx-sf-checkout', URL . 'assets/js/checkout.js', array(), VERSION, true );
 
 		$s = settings();
 		ob_start();

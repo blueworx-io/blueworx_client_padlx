@@ -1,9 +1,9 @@
 === BlueWorx Client | PadlX ===
 Requires at least: 6.3
 Requires PHP: 7.4
-Stable tag: 1.4.3
+Stable tag: 1.5.0
 
-PadlX founding member sign-up and welcome pages, and founding renewal dates.
+PadlX founding member sign-up and welcome pages, founding renewal dates, the checkout schedule, the under-18 pop-up and the documents email.
 
 == Description ==
 
@@ -17,6 +17,12 @@ Founding members can be filtered on the Users screen. Checkout links, the notifi
 Membership start date (same screen): founding members who pay before the start date have their first renewal moved to one month or one year after it, so they are not billed again until a full period after opening. Nobody is charged extra. Existing founding members can be previewed and moved with one button, and every change is logged.
 
 == Changelog ==
+
+= 1.5.0 =
+* The PADLX Site Fixes plugin is now part of this plugin: the membership schedule and tick box at checkout, the under-18 pop-up and the documents email. If the old plugin is still on, it is switched off automatically and can then be deleted.
+* Checkout and the documents email show the final Founding Membership schedule, and the under-18 pop-up uses the final wording.
+* The Terms & Conditions and Privacy Policy pages can now appear in search.
+* Settings for these are under Settings → PADLX Membership Documents.
 
 = 1.4.3 =
 * The Join on WhatsApp button on the welcome page now goes to the PADLX WhatsApp community.
