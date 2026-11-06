@@ -9,7 +9,7 @@ defined( 'ABSPATH' ) || exit;
 
 $member = welcome_member();
 $email  = $member ? $member->user_email : '';
-$number = $member ? $member->ID : 0;
+$number = $member ? member_number( $member->ID ) : 0;
 
 $phases = array(
 	array( 'PHASE 1 · NOVEMBER', 'Burleigh Heads', "Four outdoor courts. You're on first." ),

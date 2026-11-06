@@ -84,7 +84,8 @@ function notify_team( array $values, $user_id ) {
 	foreach ( answer_lines( $values ) as $label => $value ) {
 		$body .= $label . ': ' . $value . "\n";
 	}
-	$body .= "\nMember number: " . format_number( $user_id ) . "\n";
+	$number = member_number( $user_id );
+	$body  .= "\nMember number: " . ( $number ? format_number( $number ) : 'Not assigned yet. Add it on their user profile:' ) . "\n";
 	$body .= "They have been sent to checkout.\n";
 	$body .= admin_url( 'user-edit.php?user_id=' . $user_id ) . "\n";
 
