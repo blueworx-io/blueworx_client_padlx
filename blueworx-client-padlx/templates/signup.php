@@ -171,7 +171,7 @@ part( 'document-start', array( 'secure' => true ) );
 			<ul class="bwpx-terms">
 				<li><span class="bwpx-check" aria-hidden="true">✓</span><span class="bwpx-label">Founding rate fixed for life</span></li>
 				<li><span class="bwpx-check" aria-hidden="true">✓</span><span class="bwpx-label">12-month minimum term</span></li>
-				<li><span class="bwpx-check" aria-hidden="true">✓</span><span class="bwpx-label">Your 12 months start on 15 December 2026</span></li>
+				<li><span class="bwpx-check" aria-hidden="true">✓</span><span class="bwpx-label">Your 12 months start on 1 December 2026</span></li>
 			</ul>
 		</section>
 
@@ -191,7 +191,7 @@ part( 'document-start', array( 'secure' => true ) );
 					</div>
 				<?php endforeach; ?>
 			</div>
-			<p class="bwpx-small">Your first payment is taken when you sign up, but your membership only starts on 15 December 2026. If opening dates move, your start date moves with them.</p>
+			<p class="bwpx-small">Your first payment is taken when you sign up, but your membership only starts on 1 December 2026. If opening dates move, your start date moves with them.</p>
 		</section>
 
 		<section class="bwpx-perk">
@@ -224,7 +224,7 @@ part( 'document-start', array( 'secure' => true ) );
 			<p class="bwpx-body">Payment plan: annual in advance</p>
 			<dl class="bwpx-sumplan__rows bwpx-small">
 				<div><dt>Minimum commitment</dt><dd>12 months</dd></div>
-				<div><dt>Membership starts</dt><dd>15 December 2026</dd></div>
+				<div><dt>Membership starts</dt><dd>1 December 2026</dd></div>
 				<div><dt>Works out at</dt><dd>$48.44 a week</dd></div>
 				<div><dt>First payment, on sign-up</dt><dd>$2,519.00</dd></div>
 			</dl>
@@ -235,7 +235,7 @@ part( 'document-start', array( 'secure' => true ) );
 			<p class="bwpx-body">Payment plan: monthly in advance</p>
 			<dl class="bwpx-sumplan__rows bwpx-small">
 				<div><dt>Minimum commitment</dt><dd>12 months</dd></div>
-				<div><dt>Membership starts</dt><dd>15 December 2026</dd></div>
+				<div><dt>Membership starts</dt><dd>1 December 2026</dd></div>
 				<div><dt>Works out at</dt><dd>$52.85 a week</dd></div>
 				<div><dt>First payment, on sign-up</dt><dd>$229.00</dd></div>
 			</dl>

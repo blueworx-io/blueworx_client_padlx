@@ -81,7 +81,7 @@ part( 'document-start', array( 'secure' => false ) );
 			</div>
 		<?php endforeach; ?>
 	</div>
-	<p class="bwpx-small">Your first payment has been taken, and your 12-month membership starts on 15 December 2026. If opening dates move, your start date moves with them.</p>
+	<p class="bwpx-small">Your first payment has been taken, and your 12-month membership starts on 1 December 2026. If opening dates move, your start date moves with them.</p>
 </section>
 
 <section class="bwpx-band bwpx-band--perk">
