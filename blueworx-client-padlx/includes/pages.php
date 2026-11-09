@@ -77,7 +77,7 @@ add_filter(
 	function ( $template ) {
 		$slug = current_template();
 		if ( TEMPLATE_SIGNUP === $slug ) {
-			return DIR . 'templates/signup.php';
+			return DIR . ( waitlist_showing() ? 'templates/waitlist.php' : 'templates/signup.php' );
 		}
 		if ( TEMPLATE_WELCOME === $slug ) {
 			return DIR . 'templates/welcome.php';

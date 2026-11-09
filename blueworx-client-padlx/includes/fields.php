@@ -114,9 +114,11 @@ function clean_field( $field, $raw ) {
 	}
 
 	if ( 'dob' === $field['type'] ) {
-		$parts = preg_split( '/\D+/', $value, -1, PREG_SPLIT_NO_EMPTY );
+		// Phone keypads have no slash, so eight digits in a row (DDMMYYYY) are accepted too.
+		$digits = preg_replace( '/\D+/', '', $value );
+		$parts  = 8 === strlen( $digits ) ? array( substr( $digits, 0, 2 ), substr( $digits, 2, 2 ), substr( $digits, 4 ) ) : preg_split( '/\D+/', $value, -1, PREG_SPLIT_NO_EMPTY );
 		if ( count( $parts ) !== 3 || ! checkdate( (int) $parts[1], (int) $parts[0], (int) $parts[2] ) || (int) $parts[2] < 1900 ) {
-			return array( $value, 'Please use DD / MM / YYYY.' );
+			return array( $value, 'Please enter your date of birth as day, month, year, e.g. 14031990.' );
 		}
 		$value = sprintf( '%02d/%02d/%04d', $parts[0], $parts[1], $parts[2] );
 	}

@@ -31,7 +31,7 @@ add_action(
 			}
 
 			$name = memberships()[ $product ];
-			$sent = wp_mail( $email, 'Your PADLX membership documents', document_email( $name, $product ), array( 'Content-Type: text/html; charset=UTF-8', 'Reply-To: PADLX <info@padlx.com.au>' ) );
+			$sent = wp_mail( $email, 'Your PADLX membership documents', document_email( $name, $product, plan_for_price( $purchase->price ?? '' ) ), array( 'Content-Type: text/html; charset=UTF-8', 'Reply-To: PADLX <info@padlx.com.au>' ) );
 			add_log_row( $sent ? 'Documents email sent' : 'Documents email failed', $email, '', $name );
 		} catch ( \Throwable $e ) {
 			add_log_row( 'Documents email failed', '', '', $e->getMessage() );
@@ -40,7 +40,7 @@ add_action(
 	30
 );
 
-function document_email( $name, $product_id ) {
+function document_email( $name, $product_id, $plan = '' ) {
 	$s = settings();
 	ob_start();
 	?>
@@ -50,7 +50,7 @@ function document_email( $name, $product_id ) {
 		<li><a href="<?php echo esc_url( $s['privacy_url'] ); ?>">Privacy Policy</a></li>
 	</ul>
 	<p><strong>Your membership schedule</strong></p>
-	<?php echo wp_kses_post( wpautop( schedule_text( $product_id ) ) ); ?>
+	<?php echo wp_kses_post( wpautop( schedule_text( $product_id, $plan ) ) ); ?>
 	<p>Questions? Email <a href="mailto:info@padlx.com.au">info@padlx.com.au</a>.</p>
 	<?php
 	return ob_get_clean();

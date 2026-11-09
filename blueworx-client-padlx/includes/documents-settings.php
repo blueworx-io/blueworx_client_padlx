@@ -69,13 +69,36 @@ function founding_schedule() {
 	return $html . '</table><p>Full Terms and Conditions apply — see the PadlX Membership Terms and Conditions. This Schedule may be updated by PadlX from time to time in accordance with clause 12.</p>';
 }
 
-function schedule_text( $product_id ) {
+/**
+ * Whether a SureCart price is the monthly or annual Founding price. Empty when it is neither.
+ */
+function plan_for_price( $price ) {
+	$id = is_object( $price ) ? (string) ( $price->id ?? '' ) : (string) $price;
+	if ( $id && \BlueWorx\PadlX\setting( 'annual_price_id' ) === $id ) {
+		return 'annual';
+	}
+	if ( $id && \BlueWorx\PadlX\setting( 'monthly_price_id' ) === $id ) {
+		return 'monthly';
+	}
+	return '';
+}
+
+/**
+ * The schedule for a membership. Given the member's plan, the price line shows only what they chose.
+ */
+function schedule_text( $product_id, $plan = '' ) {
 	$schedules = settings()['schedules'];
 	if ( ! empty( $schedules[ $product_id ] ) && false === strpos( $schedules[ $product_id ], '[PLACEHOLDER' ) ) {
-		return $schedules[ $product_id ];
+		$text = $schedules[ $product_id ];
+	} elseif ( FOUNDING_PRODUCT === $product_id ) {
+		$text = founding_schedule();
 	}
-	if ( FOUNDING_PRODUCT === $product_id ) {
-		return founding_schedule();
+	if ( isset( $text ) ) {
+		$one = array(
+			'annual'  => '$2,519/year paid annually (1 month free)',
+			'monthly' => '$229/month',
+		);
+		return isset( $one[ $plan ] ) ? str_replace( '$229/month, or $2,519/year paid annually (1 month free)', $one[ $plan ], $text ) : $text;
 	}
 	$name = memberships()[ $product_id ] ?? 'this membership';
 	return 'The membership schedule for ' . $name . ' is not available yet.';

@@ -44,7 +44,7 @@ part( 'document-start', array( 'secure' => true ) );
 	<p class="bwpx-small bwpx-muted">Takes about 4 minutes.</p>
 	<div class="bwpx-callout">
 		<p class="bwpx-eyebrow">FOUNDING OFFER</p>
-		<p class="bwpx-body">Lock in your membership within 7 days of receiving your invitation and we'll load an additional $300 into your Playtomic wallet, ready to spend on peak-time play. That's 20 hours of peak-time play included. This is a strictly limited offer, so make sure you confirm your founding membership within 7 days to take advantage of the $300 Playtomic wallet credit.</p>
+		<p class="bwpx-body">Confirm your founding membership within 7 days of receiving your invitation and you'll receive a bonus $300 in your Playtomic wallet to spend on peak-hour play. That's the equivalent of 20 hours of peak-time play included in your founding membership.</p>
 	</div>
 </section>
 
@@ -87,7 +87,7 @@ part( 'document-start', array( 'secure' => true ) );
 						'placeholder'  => 'DD / MM / YYYY',
 						'inputmode'    => 'numeric',
 						'autocomplete' => 'bday',
-						'helper'       => 'So we can celebrate with you.',
+						'helper'       => 'Just type the numbers, e.g. 14031990. So we can celebrate with you.',
 					)
 				);
 				?>

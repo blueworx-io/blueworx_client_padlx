@@ -18,6 +18,26 @@
 		}
 	}
 
+	// Date of birth: phone keypads have no slash, so add the slashes as the digits are typed.
+	var dob = form.querySelector( 'input[name="bwpx[dob]"]' );
+	if ( dob ) {
+		dob.addEventListener( 'input', function () {
+			var digits = dob.value.replace( /\D+/g, '' ).slice( 0, 8 );
+			var out    = digits.slice( 0, 2 );
+			if ( digits.length > 2 ) {
+				out += '/' + digits.slice( 2, 4 );
+			}
+			if ( digits.length > 4 ) {
+				out += '/' + digits.slice( 4 );
+			}
+			// Only reformat while typing forwards, so deleting a slash isn't fought.
+			if ( dob.value.length >= ( dob.dataset.len || 0 ) && dob.value !== out ) {
+				dob.value = out;
+			}
+			dob.dataset.len = dob.value.length;
+		} );
+	}
+
 	form.addEventListener( 'submit', function () {
 		var button = form.querySelector( 'button[type="submit"]' );
 		if ( button ) {

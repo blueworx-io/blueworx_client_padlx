@@ -35,16 +35,13 @@ function parse_number_list( $text ) {
 		}
 		$email = strtolower( $email[0] );
 		$rest  = str_ireplace( $email, ' ', $line );
-		if ( ! preg_match( '/(?<![\d.])0*([1-9]\d{0,3})(?![\d.])/', $rest, $number ) ) {
-			$problems[] = $line . ' (no number)';
-			continue;
-		}
-		$number = (int) $number[1];
+		// A line with no number (Beck marks these "O") is someone past the 150: keep them, so they can still sign up.
+		$number = preg_match( '/(?<![\d.])0*([1-9]\d{0,3})(?![\d.])/', $rest, $m ) ? (int) $m[1] : 0;
 		if ( isset( $list[ $email ] ) ) {
 			$problems[] = $line . ' (email is already on the list)';
 			continue;
 		}
-		if ( in_array( $number, $list, true ) ) {
+		if ( $number && in_array( $number, $list, true ) ) {
 			$problems[] = $line . ' (number is already on the list)';
 			continue;
 		}
@@ -52,6 +49,15 @@ function parse_number_list( $text ) {
 	}
 
 	return array( $list, $problems );
+}
+
+/**
+ * Whether this email is on the list without a number yet (registered after the first 150).
+ */
+function on_waiting_list( $email ) {
+	$list  = number_list();
+	$email = strtolower( trim( (string) $email ) );
+	return array_key_exists( $email, $list ) && 0 === (int) $list[ $email ];
 }
 
 /**
@@ -93,6 +99,7 @@ add_action(
 			NUMBER_LIST_REPORT,
 			array(
 				'saved'    => count( $list ),
+				'waiting'  => count( array_filter( $list, function ( $n ) { return 0 === (int) $n; } ) ),
 				'given'    => $given,
 				'problems' => $problems,
 			),
@@ -106,20 +113,20 @@ add_action(
 function render_number_list_form() {
 	$lines = array();
 	foreach ( number_list() as $email => $number ) {
-		$lines[] = $number . ',' . $email;
+		$lines[] = ( $number ? $number : 'waiting' ) . ',' . $email;
 	}
 	$report = get_transient( NUMBER_LIST_REPORT );
 	delete_transient( NUMBER_LIST_REPORT );
 	?>
 	<h2><?php esc_html_e( 'Founding member numbers', 'blueworx-client-padlx' ); ?></h2>
-	<p><?php esc_html_e( 'Paste the number and email columns from the founding member list, one member per line. Each member gets their number when they sign up with that email. A number typed on a user\'s profile is never overwritten.', 'blueworx-client-padlx' ); ?></p>
+	<p><?php esc_html_e( 'Paste the number and email columns from the founding member list, one member per line. Each member gets their number when they sign up with that email. A line with an email but no number is someone past the 150: they can sign up while founding spots are left, and the sign-up email flags them as waiting for a number. Once the spots are gone they join the waitlist like everyone else. A number typed on a user\'s profile is never overwritten.', 'blueworx-client-padlx' ); ?></p>
 
 	<?php if ( is_array( $report ) ) : ?>
 		<div class="notice notice-<?php echo $report['problems'] ? 'warning' : 'success'; ?> inline">
 			<p>
 				<?php
-				/* translators: 1: numbers saved, 2: existing members given their number */
-				echo esc_html( sprintf( __( '%1$d numbers saved. %2$d existing members were given their number.', 'blueworx-client-padlx' ), $report['saved'], $report['given'] ) );
+				/* translators: 1: people saved, 2: existing members given their number, 3: people waiting for a number */
+				echo esc_html( sprintf( __( '%1$d people saved (%3$d waiting for a number). %2$d existing members were given their number.', 'blueworx-client-padlx' ), $report['saved'], $report['given'], $report['waiting'] ) );
 				?>
 			</p>
 			<?php if ( $report['problems'] ) : ?>

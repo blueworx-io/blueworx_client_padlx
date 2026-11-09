@@ -149,6 +149,8 @@ function render_settings_page() {
 
 		<?php render_number_list_form(); ?>
 
+		<?php render_waitlist_admin(); ?>
+
 		<?php render_start_date_tools(); ?>
 	</div>
 	<?php

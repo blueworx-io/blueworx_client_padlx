@@ -45,6 +45,18 @@ function handle_signup() {
 		}
 	}
 
+	// The last spot went while they were filling in the form: keep them as a waitlist lead instead.
+	if ( founding_full() ) {
+		list( $lead, $lead_errors ) = clean_waitlist( $raw );
+		if ( $lead_errors ) {
+			wp_safe_redirect( $back . '#bwpx-waitlist' );
+			exit;
+		}
+		add_to_waitlist( $lead );
+		wp_safe_redirect( add_query_arg( 'bwpx', 'waitlisted', $back ) . '#bwpx-waitlist' );
+		exit;
+	}
+
 	if ( $errors ) {
 		$token = strtolower( wp_generate_password( 16, false ) );
 		set_transient( 'bwpx_form_' . $token, array( 'values' => $values, 'errors' => $errors ), 30 * MINUTE_IN_SECONDS );
@@ -85,7 +97,13 @@ function notify_team( array $values, $user_id ) {
 		$body .= $label . ': ' . $value . "\n";
 	}
 	$number = member_number( $user_id );
-	$body  .= "\nMember number: " . ( $number ? format_number( $number ) : 'Not assigned yet. Add it on their user profile:' ) . "\n";
+	if ( $number ) {
+		$body .= "\nMember number: " . format_number( $number ) . "\n";
+	} elseif ( on_waiting_list( $values['email'] ) ) {
+		$body .= "\nMember number: WAITING. They registered after the first 150. Give them a free number on their user profile:\n";
+	} else {
+		$body .= "\nMember number: Not assigned yet (email not on the founding list). Add it on their user profile:\n";
+	}
 	$body .= "They have been sent to checkout.\n";
 	$body .= admin_url( 'user-edit.php?user_id=' . $user_id ) . "\n";
 

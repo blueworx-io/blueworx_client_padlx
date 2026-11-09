@@ -6,7 +6,10 @@
 	}
 
 	function isUnder18( value ) {
-		var parts = value.split( /\D+/ ).filter( Boolean ).map( Number );
+		var digits = value.replace( /\D+/g, '' );
+		var parts  = digits.length === 8
+			? [ digits.slice( 0, 2 ), digits.slice( 2, 4 ), digits.slice( 4 ) ].map( Number )
+			: value.split( /\D+/ ).filter( Boolean ).map( Number );
 		if ( parts.length !== 3 || parts[ 2 ] < 1900 ) {
 			return false;
 		}
