@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       BlueWorx Client | PadlX
  * Description:       PadlX founding member sign-up and welcome pages, founding renewal dates, the membership schedule and tick box at checkout, the under-18 pop-up and the documents email.
- * Version:           1.9.0
+ * Version:           1.10.0
  * Requires at least: 6.3
  * Requires PHP:      7.4
  * Author:            BlueWorx
@@ -12,9 +12,11 @@
 
 namespace BlueWorx\PadlX;
 
+use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
+
 defined( 'ABSPATH' ) || exit;
 
-const VERSION = '1.9.0';
+const VERSION = '1.10.0';
 const FILE    = __FILE__;
 
 // SureCart Founding prices, used until others are saved in settings.
@@ -28,6 +30,31 @@ const CHECKOUT_MONTHLY = 'https://padlx.com.au/checkout/?line_items%5B0%5D%5Bpri
 define( __NAMESPACE__ . '\DIR', plugin_dir_path( __FILE__ ) );
 define( __NAMESPACE__ . '\URL', plugin_dir_url( __FILE__ ) );
 
+/*
+ * Automatic updates. The site watches this repo's GitHub Releases and installs
+ * the zip attached to each one. The library is vendored whole at
+ * plugin-update-checker/ and swapped, never edited.
+ */
+require_once DIR . 'plugin-update-checker/plugin-update-checker.php';
+
+// The third argument must equal the plugin's folder name on the site and the
+// folder inside the release zip, or WordPress installs the update as a second copy.
+$bwpx_update_checker = PucFactory::buildUpdateChecker(
+	'https://github.com/blueworx-io/blueworx_client_padlx/',
+	__FILE__,
+	'blueworx-client-padlx'
+);
+
+// The repo is private, so the site needs a token in wp-config.php to see releases:
+// define( 'BLUEWORX_PLUGIN_UPDATE_TOKEN', 'github_pat_...' );
+if ( defined( 'BLUEWORX_PLUGIN_UPDATE_TOKEN' ) && BLUEWORX_PLUGIN_UPDATE_TOKEN ) {
+	$bwpx_update_checker->setAuthentication( BLUEWORX_PLUGIN_UPDATE_TOKEN );
+}
+
+// Install the zip attached to the Release, not GitHub's source tarball.
+$bwpx_update_checker->getVcsApi()->enableReleaseAssets();
+
+require_once DIR . 'includes/auto-updates.php';
 require_once DIR . 'includes/settings.php';
 require_once DIR . 'includes/fields.php';
 require_once DIR . 'includes/members.php';
