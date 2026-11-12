@@ -44,7 +44,7 @@ part( 'document-start', array( 'secure' => true ) );
 	<p class="bwpx-small bwpx-muted">Takes about 4 minutes.</p>
 	<div class="bwpx-callout">
 		<p class="bwpx-eyebrow">FOUNDING OFFER</p>
-		<p class="bwpx-body">Confirm your founding membership within 7 days of receiving your invitation and you'll receive a bonus $300 in your Playtomic wallet to spend on peak-hour play. That's the equivalent of 20 hours of peak-time play included in your founding membership.</p>
+		<p class="bwpx-body">Confirm your founding membership before 17 November and you'll receive a bonus $300 in your Playtomic wallet to spend on peak-hour play. That's the equivalent of 20 hours of peak-time play included in your founding membership.</p>
 	</div>
 </section>
 
@@ -244,7 +244,7 @@ part( 'document-start', array( 'secure' => true ) );
 
 		<div class="bwpx-summary__fees bwpx-small"><span>Card or bank fees</span><span>$0.00</span></div>
 
-		<p class="bwpx-summary__bonus bwpx-small">Founding bonus: confirm your founding membership within 7 days of receiving your invitation and you'll receive a bonus $300 in your Playtomic wallet to spend on peak-hour play. That's the equivalent of 20 hours of peak-time play included in your founding membership.</p>
+		<p class="bwpx-summary__bonus bwpx-small">Founding bonus: confirm your founding membership before 17 November and you'll receive a bonus $300 in your Playtomic wallet to spend on peak-hour play. That's the equivalent of 20 hours of peak-time play included in your founding membership.</p>
 
 		<p class="bwpx-eyebrow">WHAT'S INCLUDED</p>
 		<ul class="bwpx-included">
