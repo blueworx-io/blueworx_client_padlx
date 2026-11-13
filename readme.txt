@@ -1,7 +1,7 @@
 === BlueWorx Client | PadlX ===
 Requires at least: 6.3
 Requires PHP: 7.4
-Stable tag: 1.10.0
+Stable tag: 1.10.1
 
 PadlX founding member sign-up and welcome pages, founding renewal dates, the checkout schedule, the under-18 pop-up and the documents email.
 
@@ -17,6 +17,9 @@ Founding members can be filtered on the Users screen. Checkout links, the notifi
 Membership start date (same screen): founding members who pay before the start date have their first renewal moved to one month or one year after it, so they are not billed again until a full period after opening. Nobody is charged extra. Existing founding members can be previewed and moved with one button, and every change is logged.
 
 == Changelog ==
+
+= 1.10.1 =
+* The WhatsApp community link now goes to the new group.
 
 = 1.10.0 =
 * The founding offer on the sign-up page now says to confirm before 17 November, in both places.
