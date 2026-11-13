@@ -27,7 +27,7 @@ function settings() {
 	);
 	// The PADLX WhatsApp community, unless a different link has been saved on the settings screen.
 	if ( '' === $all['whatsapp_url'] ) {
-		$all['whatsapp_url'] = 'https://chat.whatsapp.com/HIqvYY8YDAf2bwqwizfzaC';
+		$all['whatsapp_url'] = 'https://chat.whatsapp.com/H15Yc88y7Dn94N2h68ICot';
 	}
 	return $all;
 }

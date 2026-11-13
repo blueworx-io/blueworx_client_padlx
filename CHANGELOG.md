@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.10.1
+
+- The WhatsApp community link now goes to the new group.
+
 ## 1.10.0
 
 - The founding offer on the sign-up page now says to confirm before 17 November, in both places.
