@@ -208,6 +208,7 @@ part( 'document-start', array( 'secure' => true ) );
 			<?php Form\step_header( '04', 'Review and pay', 'Check your plan in the summary, then continue to our secure checkout to pay by card or bank account.' ); ?>
 			<p class="bwpx-small bwpx-muted">Payment is processed securely by Stripe. Your details never touch the PADLX website.</p>
 			<p class="bwpx-small">No card fees. No direct debit fees. The price you see is the price you pay.</p>
+			<?php human_check_fields(); ?>
 			<button type="submit" class="bwpx-btn bwpx-btn--full">Continue to secure checkout</button>
 			<p class="bwpx-small bwpx-muted">A tax invoice will be emailed to you for your annual payment in advance or, if you pay monthly, for your 12 monthly payments. PADLX is a trading name of Padel 365 Pty Ltd, ABN 13 689 919 079.</p>
 		</section>
