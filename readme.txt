@@ -1,7 +1,7 @@
 === BlueWorx Client | PadlX ===
 Requires at least: 6.3
 Requires PHP: 7.4
-Stable tag: 1.10.1
+Stable tag: 1.11.0
 
 PadlX founding member sign-up and welcome pages, founding renewal dates, the checkout schedule, the under-18 pop-up and the documents email.
 
@@ -9,7 +9,7 @@ PadlX founding member sign-up and welcome pages, founding renewal dates, the che
 
 On activation this creates two draft pages:
 
-* Founding Membership (/founding-membership) – the sign-up form. Answers are saved to the member's user profile (an account is created if the email doesn't match one), emailed to the team, then the member goes to checkout with their chosen plan.
+* Founding Membership (/founding-membership) – the sign-up form. Answers are saved to the member's user profile (an account is created if the email doesn't match one), then the member goes to checkout with their chosen plan. The team is emailed once they have paid.
 * Welcome to the 150 (/welcome) – shown after payment, with the member's founding number once it has been added to their user profile.
 
 Founding members can be filtered on the Users screen. Checkout links, the notification email and the WhatsApp link are under Users → Founding Members.
@@ -17,6 +17,11 @@ Founding members can be filtered on the Users screen. Checkout links, the notifi
 Membership start date (same screen): founding members who pay before the start date have their first renewal moved to one month or one year after it, so they are not billed again until a full period after opening. Nobody is charged extra. Existing founding members can be previewed and moved with one button, and every change is logged.
 
 == Changelog ==
+
+= 1.11.0 =
+* The sign-up email to the team now arrives once someone has paid, not when they reach checkout.
+* Block emails or whole domains from the sign-up and waitlist forms, under Users → Founding Members.
+* Forms sent faster than a person could fill them in are turned away, and a Cloudflare "not a robot" box can be switched on.
 
 = 1.10.1 =
 * The WhatsApp community link now goes to the new group.

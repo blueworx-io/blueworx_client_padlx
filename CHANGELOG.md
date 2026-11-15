@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.11.0
+
+- The sign-up email to the team now arrives once someone has paid, not when they reach checkout.
+- Block emails or whole domains from the sign-up and waitlist forms, under Users → Founding Members.
+- Forms sent faster than a person could fill them in are turned away, and a Cloudflare "not a robot" box can be switched on.
+
 ## 1.10.1
 
 - The WhatsApp community link now goes to the new group.

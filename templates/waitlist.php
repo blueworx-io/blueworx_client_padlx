@@ -66,6 +66,7 @@ part( 'document-start' );
 					<?php Form\input( $state, 'email', array( 'type' => 'email', 'autocomplete' => 'email' ) ); ?>
 					<?php Form\input( $state, 'mobile', array( 'type' => 'tel', 'autocomplete' => 'tel' ) ); ?>
 				</div>
+				<?php human_check_fields(); ?>
 				<button type="submit" class="bwpx-btn bwpx-btn--full">Join the waitlist</button>
 				<p class="bwpx-small bwpx-muted">No payment is taken. We'll only use your details to contact you about a founding membership.</p>
 			</section>

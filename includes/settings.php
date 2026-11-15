@@ -23,6 +23,10 @@ function settings() {
 			'start_date'           => '',
 			'annual_price_id'      => PRICE_ANNUAL,
 			'monthly_price_id'     => PRICE_MONTHLY,
+			// Sent test sign-ups on 15 November 2026 and never answered PADLX's email.
+			'blocked_emails'       => 'testevent@gmail.com',
+			'turnstile_site_key'   => '',
+			'turnstile_secret_key' => '',
 		)
 	);
 	// The PADLX WhatsApp community, unless a different link has been saved on the settings screen.
@@ -72,6 +76,9 @@ function sanitize_settings( $input ) {
 		'start_date'           => preg_match( '/^\d{4}-\d{2}-\d{2}$/', $date ) ? $date : '',
 		'annual_price_id'      => sanitize_text_field( trim( $input['annual_price_id'] ?? '' ) ),
 		'monthly_price_id'     => sanitize_text_field( trim( $input['monthly_price_id'] ?? '' ) ),
+		'blocked_emails'       => sanitize_blocked_list( $input['blocked_emails'] ?? '' ),
+		'turnstile_site_key'   => sanitize_text_field( trim( $input['turnstile_site_key'] ?? '' ) ),
+		'turnstile_secret_key' => sanitize_text_field( trim( $input['turnstile_secret_key'] ?? '' ) ),
 	);
 }
 
@@ -142,6 +149,22 @@ function render_settings_page() {
 				$field( 'start_date', __( 'Membership starts on', 'blueworx-client-padlx' ), 'date' );
 				$field( 'annual_price_id', __( 'Annual Founding price ID', 'blueworx-client-padlx' ), 'text', __( 'From SureCart. Leave as is unless the Founding prices are replaced.', 'blueworx-client-padlx' ) );
 				$field( 'monthly_price_id', __( 'Monthly Founding price ID', 'blueworx-client-padlx' ), 'text' );
+				?>
+			</table>
+
+			<h2><?php esc_html_e( 'Spam protection', 'blueworx-client-padlx' ); ?></h2>
+			<p><?php esc_html_e( 'Applies to the sign-up and waitlist forms. Forms sent back faster than a person could fill them in are always turned away.', 'blueworx-client-padlx' ); ?></p>
+			<table class="form-table" role="presentation">
+				<tr>
+					<th scope="row"><label for="bwpx-blocked_emails"><?php esc_html_e( 'Blocked emails', 'blueworx-client-padlx' ); ?></label></th>
+					<td>
+						<textarea id="bwpx-blocked_emails" name="<?php echo esc_attr( OPTION ); ?>[blocked_emails]" rows="5" class="large-text code"><?php echo esc_textarea( $s['blocked_emails'] ); ?></textarea>
+						<p class="description"><?php esc_html_e( 'One per line. Use a full email, or @domain.com to block a whole domain. Blocked people are sent back to the form, and nothing is saved or emailed.', 'blueworx-client-padlx' ); ?></p>
+					</td>
+				</tr>
+				<?php
+				$field( 'turnstile_site_key', __( 'Cloudflare Turnstile site key', 'blueworx-client-padlx' ), 'text', __( 'Optional. With both keys filled in, the forms show a "not a robot" box. Get them free from Cloudflare under Turnstile.', 'blueworx-client-padlx' ) );
+				$field( 'turnstile_secret_key', __( 'Cloudflare Turnstile secret key', 'blueworx-client-padlx' ), 'password' );
 				?>
 			</table>
 			<?php submit_button(); ?>

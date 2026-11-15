@@ -1,6 +1,7 @@
 <?php
 /**
- * Handles the sign-up form: check the answers, save them to the member's profile, email the team, then go to checkout.
+ * Handles the sign-up form: check the answers, save them to the member's profile, then go to checkout.
+ * The team is emailed once the member has paid, so people who stop at checkout don't reach their inbox.
  */
 
 namespace BlueWorx\PadlX;
@@ -45,6 +46,17 @@ function handle_signup() {
 		}
 	}
 
+	// Blocked emails are quietly sent back to the page, with nothing saved or emailed.
+	if ( blocked_email( $raw['email'] ?? '' ) ) {
+		wp_safe_redirect( $back );
+		exit;
+	}
+
+	$problem = human_check_problem();
+	if ( $problem ) {
+		back_to_form( $back, $values, $problem, '#bwpx-form' );
+	}
+
 	// The last spot went while they were filling in the form: keep them as a waitlist lead instead.
 	if ( founding_full() ) {
 		list( $lead, $lead_errors ) = clean_waitlist( $raw );
@@ -70,7 +82,6 @@ function handle_signup() {
 		exit;
 	}
 
-	notify_team( $values, $user_id );
 	set_member_cookie( $user_id );
 
 	$checkout = add_query_arg(
@@ -86,32 +97,95 @@ function handle_signup() {
 	exit;
 }
 
-function notify_team( array $values, $user_id ) {
+// Emails the team when a Founding Membership is paid for. SureCart fires this when checkout
+// finishes and again from its webhook, so each purchase is only emailed once.
+add_action(
+	'surecart/purchase_created',
+	function ( $purchase ) {
+		try {
+			$product = $purchase->product ?? '';
+			$product = is_object( $product ) ? ( $product->id ?? '' ) : (string) $product;
+			if ( empty( $purchase->id ) || Documents\FOUNDING_PRODUCT !== $product ) {
+				return;
+			}
+			// Test-mode payments are never real members.
+			if ( isset( $purchase->live_mode ) && ! $purchase->live_mode ) {
+				return;
+			}
+			if ( ! add_option( 'bwpx_paid_emailed_' . $purchase->id, time(), '', false ) ) {
+				return;
+			}
+
+			$customer = $purchase->customer ?? '';
+			$customer = is_object( $customer ) ? ( $customer->id ?? '' ) : (string) $customer;
+			$found    = $customer ? \SureCart\Models\Customer::find( $customer ) : null;
+			if ( ! $found || is_wp_error( $found ) || ! is_email( (string) ( $found->email ?? '' ) ) ) {
+				return;
+			}
+
+			notify_team( $found, Documents\plan_for_price( $purchase->price ?? '' ) );
+		} catch ( \Throwable $e ) {
+			error_log( 'PadlX paid email failed: ' . $e->getMessage() ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+		}
+	},
+	25
+);
+
+/**
+ * The team email for one paid founding member, with their sign-up answers when they filled in the form.
+ */
+function notify_team( $customer, $plan ) {
 	$to = setting( 'notify_email' );
 	if ( ! is_email( $to ) ) {
 		return;
 	}
 
+	$email  = strtolower( (string) $customer->email );
+	$user   = get_user_by( 'email', $email );
+	$values = $user ? get_user_meta( $user->ID, META_ANSWERS, true ) : '';
+	$values = is_array( $values ) ? $values : array();
+	if ( ! $plan ) {
+		$plan = $values['plan'] ?? ( $user ? get_user_meta( $user->ID, META_PLAN, true ) : '' );
+	}
+
+	$first = $values['first_name'] ?? (string) ( $customer->first_name ?? '' );
+	$last  = $values['last_name'] ?? (string) ( $customer->last_name ?? '' );
+	$name  = trim( $first . ' ' . $last );
+	if ( '' === $name ) {
+		$name = trim( (string) ( $customer->name ?? '' ) );
+	}
+
 	$body = '';
-	foreach ( answer_lines( $values ) as $label => $value ) {
-		$body .= $label . ': ' . $value . "\n";
-	}
-	$number = member_number( $user_id );
-	if ( $number ) {
-		$body .= "\nMember number: " . format_number( $number ) . "\n";
-	} elseif ( on_waiting_list( $values['email'] ) ) {
-		$body .= "\nMember number: WAITING. They registered after the first 150. Give them a free number on their user profile:\n";
+	if ( $values ) {
+		$values['plan'] = $plan ? $plan : ( $values['plan'] ?? '' );
+		foreach ( answer_lines( $values ) as $label => $value ) {
+			$body .= $label . ': ' . $value . "\n";
+		}
 	} else {
-		$body .= "\nMember number: Not assigned yet (email not on the founding list). Add it on their user profile:\n";
+		$body .= "They paid without filling in the sign-up form first, so we only have their checkout details.\n\n";
+		$body .= 'Name: ' . ( '' === $name ? '—' : $name ) . "\n";
+		$body .= 'Email: ' . $email . "\n";
+		$body .= 'Payment plan: ' . plan_label( $plan ) . "\n";
 	}
-	$body .= "They have been sent to checkout.\n";
-	$body .= admin_url( 'user-edit.php?user_id=' . $user_id ) . "\n";
+
+	if ( $user ) {
+		$number = member_number( $user->ID );
+		if ( $number ) {
+			$body .= "\nMember number: " . format_number( $number ) . "\n";
+		} elseif ( on_waiting_list( $email ) ) {
+			$body .= "\nMember number: WAITING. They registered after the first 150. Give them a free number on their user profile:\n";
+		} else {
+			$body .= "\nMember number: Not assigned yet (email not on the founding list). Add it on their user profile:\n";
+		}
+		$body .= admin_url( 'user-edit.php?user_id=' . $user->ID ) . "\n";
+	}
+	$body .= "\nThey have paid for their Founding Membership.\n";
 
 	wp_mail(
 		$to,
-		sprintf( 'Founding member sign-up: %s %s (%s)', $values['first_name'], $values['last_name'], 'monthly' === $values['plan'] ? 'monthly' : 'annual' ),
+		sprintf( 'Founding member sign-up: %s (%s)', '' === $name ? $email : $name, 'monthly' === $plan ? 'monthly' : 'annual' ),
 		$body,
-		array( 'Reply-To: ' . $values['first_name'] . ' ' . $values['last_name'] . ' <' . $values['email'] . '>' )
+		array( 'Reply-To: ' . ( '' === $name ? '' : $name . ' ' ) . '<' . $email . '>' )
 	);
 }
 
@@ -135,7 +209,7 @@ function form_state() {
 		if ( is_array( $saved ) ) {
 			$state['values']  = $saved['values'];
 			$state['errors']  = $saved['errors'];
-			$state['message'] = 'A few answers need another look. They are marked below.';
+			$state['message'] = $saved['message'] ?? 'A few answers need another look. They are marked below.';
 		}
 	}
 

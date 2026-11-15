@@ -154,6 +154,17 @@ function handle_waitlist() {
 	$raw                     = isset( $_POST['bwpx'] ) && is_array( $_POST['bwpx'] ) ? $_POST['bwpx'] : array(); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- cleaned per field in clean_waitlist().
 	list( $values, $errors ) = clean_waitlist( $raw );
 
+	// Blocked emails are quietly sent back to the page, with nothing saved or emailed.
+	if ( blocked_email( $raw['email'] ?? '' ) ) {
+		wp_safe_redirect( $back );
+		exit;
+	}
+
+	$problem = human_check_problem();
+	if ( $problem ) {
+		back_to_form( $back, $values, $problem, '#bwpx-waitlist' );
+	}
+
 	if ( $errors ) {
 		$token = strtolower( wp_generate_password( 16, false ) );
 		set_transient( 'bwpx_form_' . $token, array( 'values' => $values, 'errors' => $errors ), 30 * MINUTE_IN_SECONDS );
