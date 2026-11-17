@@ -57,8 +57,8 @@ function handle_signup() {
 		back_to_form( $back, $values, $problem, '#bwpx-form' );
 	}
 
-	// The last spot went while they were filling in the form: keep them as a waitlist lead instead.
-	if ( founding_full() ) {
+	// The last spot went, or sales closed, while they were filling in the form: keep them as a lead instead.
+	if ( founding_full() || founding_closed() ) {
 		list( $lead, $lead_errors ) = clean_waitlist( $raw );
 		if ( $lead_errors ) {
 			wp_safe_redirect( $back . '#bwpx-waitlist' );

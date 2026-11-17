@@ -25,7 +25,7 @@ $included = array(
 );
 
 $phases = array(
-	array( 'PHASE 1 · NOVEMBER', 'Burleigh Heads', 'Four outdoor courts, cafe and bar. Founding members on court first.' ),
+	array( 'PHASE 1 · WEDNESDAY 25 NOVEMBER', 'Burleigh Heads', 'Four outdoor courts, cafe and bar. Founding members on court first, and playing free until 30 November.' ),
 	array( 'PHASE 2 · DECEMBER', 'Arundel, part one', 'The first four indoor courts open.' ),
 	array( 'PHASE 3 · JANUARY 2027', 'Arundel, complete', "Courts 5 to 8 open, along with the Wellness Centre. (Until then, we've got you covered with a temporary guest pass to Breathe, just around the corner from Arundel.)" ),
 );
@@ -41,11 +41,13 @@ part( 'document-start', array( 'secure' => true ) );
 	<p class="bwpx-tag">STRICTLY LIMITED · 150 FOUNDING MEMBERS</p>
 	<h1 class="bwpx-h1 bwpx-intro__title">You reserved it. Now make it yours.</h1>
 	<p class="bwpx-intro__text">Thank you for being one of our founding members. We're thrilled to welcome you officially to PADLX. So we can get to know you even better, answer a few quick questions, then choose how you'd like to pay. Your founding rate is fixed for life.</p>
-	<p class="bwpx-small bwpx-muted">Takes about 4 minutes.</p>
-	<div class="bwpx-callout">
-		<p class="bwpx-eyebrow">FOUNDING OFFER</p>
-		<p class="bwpx-body">Confirm your founding membership before 17 November and you'll receive a bonus $300 in your Playtomic wallet to spend on peak-hour play. That's the equivalent of 20 hours of peak-time play included in your founding membership.</p>
-	</div>
+	<p class="bwpx-small bwpx-muted">Takes about 4 minutes. Founding memberships close on Monday 30 November.</p>
+	<?php if ( offer_open() ) : ?>
+		<div class="bwpx-callout">
+			<p class="bwpx-eyebrow">FOUNDING OFFER · EXTENDED</p>
+			<p class="bwpx-body">We're so excited to open our doors that we've decided to extend our founding offer. Confirm your founding membership before 9pm on Wednesday 25 November and you'll receive a bonus $300 in your Playtomic wallet to spend on peak-hour play. That's the equivalent of 20 hours of peak-time play included in your founding membership.</p>
+		</div>
+	<?php endif; ?>
 </section>
 
 <div class="bwpx-main">
@@ -245,7 +247,9 @@ part( 'document-start', array( 'secure' => true ) );
 
 		<div class="bwpx-summary__fees bwpx-small"><span>Card or bank fees</span><span>$0.00</span></div>
 
-		<p class="bwpx-summary__bonus bwpx-small">Founding bonus: confirm your founding membership before 17 November and you'll receive a bonus $300 in your Playtomic wallet to spend on peak-hour play. That's the equivalent of 20 hours of peak-time play included in your founding membership.</p>
+		<?php if ( offer_open() ) : ?>
+			<p class="bwpx-summary__bonus bwpx-small">Founding bonus, now extended: confirm your founding membership before 9pm on Wednesday 25 November and you'll receive a bonus $300 in your Playtomic wallet to spend on peak-hour play. That's the equivalent of 20 hours of peak-time play included in your founding membership.</p>
+		<?php endif; ?>
 
 		<p class="bwpx-eyebrow">WHAT'S INCLUDED</p>
 		<ul class="bwpx-included">

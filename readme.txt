@@ -1,7 +1,7 @@
 === BlueWorx Client | PadlX ===
 Requires at least: 6.3
 Requires PHP: 7.4
-Stable tag: 1.11.0
+Stable tag: 1.12.0
 
 PadlX founding member sign-up and welcome pages, founding renewal dates, the checkout schedule, the under-18 pop-up and the documents email.
 
@@ -17,6 +17,11 @@ Founding members can be filtered on the Users screen. Checkout links, the notifi
 Membership start date (same screen): founding members who pay before the start date have their first renewal moved to one month or one year after it, so they are not billed again until a full period after opening. Nobody is charged extra. Existing founding members can be previewed and moved with one button, and every change is logged.
 
 == Changelog ==
+
+= 1.12.0 =
+* Burleigh opens on Wednesday 25 November, with founding members playing free until 30 November. Shown on the sign-up and welcome pages.
+* The $300 wallet offer is extended to 9pm on Wednesday 25 November, then disappears from the sign-up page by itself.
+* Founding memberships close at the end of Monday 30 November. The sign-up page then becomes a short form to leave details, which are emailed to the team.
 
 = 1.11.0 =
 * The sign-up email to the team now arrives once someone has paid, not when they reach checkout.

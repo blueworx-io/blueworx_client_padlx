@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       BlueWorx Client | PadlX
  * Description:       PadlX founding member sign-up and welcome pages, founding renewal dates, the membership schedule and tick box at checkout, the under-18 pop-up and the documents email.
- * Version:           1.11.0
+ * Version:           1.12.0
  * Requires at least: 6.3
  * Requires PHP:      7.4
  * Author:            BlueWorx
@@ -16,8 +16,13 @@ use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
 
 defined( 'ABSPATH' ) || exit;
 
-const VERSION = '1.11.0';
+const VERSION = '1.12.0';
 const FILE    = __FILE__;
+
+// When the $300 wallet offer ends and founding memberships stop selling, in the site's timezone.
+// Sales stop at the end of 30 November, the day before memberships start.
+const OFFER_ENDS      = '2026-11-25 21:00';
+const FOUNDING_CLOSES = '2026-12-01 00:00';
 
 // SureCart Founding prices, used until others are saved in settings.
 const PRICE_ANNUAL  = '5e54565c-3d31-479a-8ebc-45264ad2d738';
