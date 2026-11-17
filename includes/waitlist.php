@@ -1,6 +1,7 @@
 <?php
 /**
- * Once every founding spot is sold, the sign-up page becomes a waitlist form so the leads are kept.
+ * Once every founding spot is sold, or founding sales close, the sign-up page becomes a short
+ * form to leave details, so the leads are kept.
  */
 
 namespace BlueWorx\PadlX;
@@ -37,6 +38,33 @@ function founding_spots() {
 	return $spots;
 }
 
+/**
+ * True once a 'Y-m-d H:i' moment in the site's timezone has passed.
+ */
+function has_passed( $when ) {
+	$moment = \DateTimeImmutable::createFromFormat( '!Y-m-d H:i', $when, wp_timezone() );
+	return $moment && time() >= $moment->getTimestamp();
+}
+
+/**
+ * Admins can see the closed page early by adding ?bwpx_closed=1.
+ */
+function closed_preview() {
+	return isset( $_GET['bwpx_closed'] ) && current_user_can( 'manage_options' ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+}
+
+function founding_closed() {
+	return closed_preview() || has_passed( FOUNDING_CLOSES );
+}
+
+/**
+ * The $300 wallet offer shows until it ends. Admins can see the page without it by adding ?bwpx_offer_ended=1.
+ */
+function offer_open() {
+	$preview = isset( $_GET['bwpx_offer_ended'] ) && current_user_can( 'manage_options' ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	return ! $preview && ! has_passed( OFFER_ENDS );
+}
+
 function founding_full() {
 	$spots = founding_spots();
 	return null !== $spots && $spots <= 0;
@@ -62,11 +90,14 @@ function waitlist_joined() {
 }
 
 function waitlist_showing() {
-	return waitlist_preview() || waitlist_joined() || founding_full();
+	return waitlist_preview() || waitlist_joined() || founding_full() || founding_closed();
 }
 
 function waitlist_url() {
 	$url = get_permalink( get_queried_object_id() );
+	if ( closed_preview() ) {
+		return add_query_arg( 'bwpx_closed', 1, $url );
+	}
 	return waitlist_preview() ? add_query_arg( 'bwpx_waitlist', 1, $url ) : $url;
 }
 
@@ -95,11 +126,13 @@ function add_to_waitlist( array $values ) {
 	if ( ! $new || ! is_email( $to ) ) {
 		return;
 	}
+	$closed = founding_closed();
 	wp_mail(
 		$to,
-		sprintf( 'Founding waitlist: %s %s', $values['first_name'], $values['last_name'] ),
+		sprintf( $closed ? 'Membership enquiry: %s %s' : 'Founding waitlist: %s %s', $values['first_name'], $values['last_name'] ),
 		sprintf(
-			"All founding spots are taken, so this person joined the waitlist.\n\nName: %s %s\nEmail: %s\nMobile: %s\n\nPeople on the waitlist: %d\n%s\n",
+			"%s\n\nName: %s %s\nEmail: %s\nMobile: %s\n\nPeople on the waitlist: %d\n%s\n",
+			$closed ? 'Founding memberships have closed, so this person left their details to hear about membership.' : 'All founding spots are taken, so this person joined the waitlist.',
 			$values['first_name'],
 			$values['last_name'],
 			$email,
@@ -194,6 +227,13 @@ function render_waitlist_admin() {
 			esc_html_e( 'All founding spots are taken. The sign-up page is now a waitlist form.', 'blueworx-client-padlx' );
 		}
 		?>
+	</p>
+	<p>
+		<?php esc_html_e( 'The $300 wallet offer hides itself at 9pm on 25 November. Founding sales close at the end of 30 November, when the sign-up page becomes a form to leave details.', 'blueworx-client-padlx' ); ?>
+		<?php if ( ! empty( $pages['signup'] ) && get_post( $pages['signup'] ) ) : ?>
+			<a href="<?php echo esc_url( add_query_arg( 'bwpx_offer_ended', 1, get_permalink( $pages['signup'] ) ) ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Preview without the offer', 'blueworx-client-padlx' ); ?></a>
+			&nbsp;·&nbsp;<a href="<?php echo esc_url( add_query_arg( 'bwpx_closed', 1, get_permalink( $pages['signup'] ) ) ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Preview the closed page', 'blueworx-client-padlx' ); ?></a>
+		<?php endif; ?>
 		<?php if ( ! empty( $pages['signup'] ) && get_post( $pages['signup'] ) ) : ?>
 			<a href="<?php echo esc_url( add_query_arg( 'bwpx_waitlist', 1, get_permalink( $pages['signup'] ) ) ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Preview the waitlist page', 'blueworx-client-padlx' ); ?></a>
 		<?php endif; ?>

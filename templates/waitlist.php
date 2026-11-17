@@ -1,6 +1,7 @@
 <?php
 /**
- * Founding waitlist page: shown in place of the sign-up form once every founding spot is taken.
+ * Founding waitlist page: shown in place of the sign-up form once every founding spot is taken,
+ * or once founding sales close.
  */
 
 namespace BlueWorx\PadlX;
@@ -11,6 +12,7 @@ require_once DIR . 'templates/parts/form-fields.php';
 
 $state  = form_state();
 $joined = waitlist_joined();
+$closed = founding_closed();
 
 $included = array(
 	'Free off-peak play at all centres',
@@ -30,17 +32,28 @@ part( 'document-start' );
 </div>
 
 <section class="bwpx-intro">
-	<p class="bwpx-tag">FOUNDING MEMBERSHIP · ALL 150 SPOTS TAKEN</p>
-	<h1 class="bwpx-h1 bwpx-intro__title">Join the founding waitlist.</h1>
-	<p class="bwpx-intro__text">All 150 founding memberships have been taken. Leave your details and we'll be in touch as soon as a spot opens up.</p>
+	<?php if ( $closed ) : ?>
+		<p class="bwpx-tag">FOUNDING MEMBERSHIP · NOW CLOSED</p>
+		<h1 class="bwpx-h1 bwpx-intro__title">Founding memberships have closed.</h1>
+		<p class="bwpx-intro__text">Thank you to everyone who joined us as a founding member. Leave your details and we'll be in touch about membership at PADLX.</p>
+	<?php else : ?>
+		<p class="bwpx-tag">FOUNDING MEMBERSHIP · ALL 150 SPOTS TAKEN</p>
+		<h1 class="bwpx-h1 bwpx-intro__title">Join the founding waitlist.</h1>
+		<p class="bwpx-intro__text">All 150 founding memberships have been taken. Leave your details and we'll be in touch as soon as a spot opens up.</p>
+	<?php endif; ?>
 </section>
 
 <div class="bwpx-main">
 	<?php if ( $joined ) : ?>
 		<div class="bwpx-steps" id="bwpx-waitlist">
 			<section class="bwpx-step">
-				<h2 class="bwpx-h3">You're on the waitlist.</h2>
-				<p class="bwpx-body">Thank you. We'll be in touch as soon as a founding spot opens up.</p>
+				<?php if ( $closed ) : ?>
+					<h2 class="bwpx-h3">Thanks, we've got your details.</h2>
+					<p class="bwpx-body">We'll be in touch about membership at PADLX.</p>
+				<?php else : ?>
+					<h2 class="bwpx-h3">You're on the waitlist.</h2>
+					<p class="bwpx-body">Thank you. We'll be in touch as soon as a founding spot opens up.</p>
+				<?php endif; ?>
 				<p class="bwpx-small">Questions? Email <a href="mailto:info@padlx.com.au">info@padlx.com.au</a></p>
 			</section>
 		</div>
@@ -67,8 +80,8 @@ part( 'document-start' );
 					<?php Form\input( $state, 'mobile', array( 'type' => 'tel', 'autocomplete' => 'tel' ) ); ?>
 				</div>
 				<?php human_check_fields(); ?>
-				<button type="submit" class="bwpx-btn bwpx-btn--full">Join the waitlist</button>
-				<p class="bwpx-small bwpx-muted">No payment is taken. We'll only use your details to contact you about a founding membership.</p>
+				<button type="submit" class="bwpx-btn bwpx-btn--full"><?php echo $closed ? 'Keep me posted' : 'Join the waitlist'; ?></button>
+				<p class="bwpx-small bwpx-muted">No payment is taken. We'll only use your details to contact you about <?php echo $closed ? 'membership' : 'a founding membership'; ?>.</p>
 			</section>
 		</form>
 	<?php endif; ?>

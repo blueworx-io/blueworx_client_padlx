@@ -12,7 +12,7 @@ $email  = $member ? $member->user_email : '';
 $number = $member ? member_number( $member->ID ) : 0;
 
 $phases = array(
-	array( 'PHASE 1 · NOVEMBER', 'Burleigh Heads', "Four outdoor courts. You're on first." ),
+	array( 'PHASE 1 · WEDNESDAY 25 NOVEMBER', 'Burleigh Heads', "Four outdoor courts. You're on first, and you play free until 30 November." ),
 	array( 'PHASE 2 · DECEMBER', 'Arundel, part one', 'The first four indoor courts.' ),
 	array( 'PHASE 3 · JANUARY 2027', 'Arundel, complete', "Courts 5 to 8 open, along with the Wellness Centre. (Until then, we've got you covered with a temporary guest pass to Breathe, just around the corner from Arundel.)" ),
 );
