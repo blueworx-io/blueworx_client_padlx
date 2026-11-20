@@ -41,7 +41,7 @@ part( 'document-start', array( 'secure' => true ) );
 	<p class="bwpx-tag">STRICTLY LIMITED · 150 FOUNDING MEMBERS</p>
 	<h1 class="bwpx-h1 bwpx-intro__title">You reserved it. Now make it yours.</h1>
 	<p class="bwpx-intro__text">Thank you for being one of our founding members. We're thrilled to welcome you officially to PADLX. So we can get to know you even better, answer a few quick questions, then choose how you'd like to pay. Your founding rate is fixed for life.</p>
-	<p class="bwpx-small bwpx-muted">Takes about 4 minutes. Founding memberships close on Monday 30 November.</p>
+	<p class="bwpx-small bwpx-muted">Takes about 4 minutes. Founding memberships close at 9pm on Monday 30 November.</p>
 	<?php if ( offer_open() ) : ?>
 		<div class="bwpx-callout">
 			<p class="bwpx-eyebrow">FOUNDING OFFER · EXTENDED</p>

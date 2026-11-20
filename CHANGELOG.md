@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.12.1
+
+- Founding memberships close at 9pm on Monday 30 November, to match the emails, instead of at midnight.
+
 ## 1.12.0
 
 - Burleigh opens on Wednesday 25 November, with founding members playing free until 30 November. Shown on the sign-up and welcome pages.
