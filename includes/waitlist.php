@@ -229,7 +229,7 @@ function render_waitlist_admin() {
 		?>
 	</p>
 	<p>
-		<?php esc_html_e( 'The $300 wallet offer hides itself at 9pm on 25 November. Founding sales close at the end of 30 November, when the sign-up page becomes a form to leave details.', 'blueworx-client-padlx' ); ?>
+		<?php esc_html_e( 'The $300 wallet offer hides itself at 9pm on 25 November. Founding sales close at 9pm on 30 November, when the sign-up page becomes a form to leave details.', 'blueworx-client-padlx' ); ?>
 		<?php if ( ! empty( $pages['signup'] ) && get_post( $pages['signup'] ) ) : ?>
 			<a href="<?php echo esc_url( add_query_arg( 'bwpx_offer_ended', 1, get_permalink( $pages['signup'] ) ) ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Preview without the offer', 'blueworx-client-padlx' ); ?></a>
 			&nbsp;·&nbsp;<a href="<?php echo esc_url( add_query_arg( 'bwpx_closed', 1, get_permalink( $pages['signup'] ) ) ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Preview the closed page', 'blueworx-client-padlx' ); ?></a>
