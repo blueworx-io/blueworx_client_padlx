@@ -8,6 +8,7 @@ const baseURL = process.env.PLAYWRIGHT_BASE_URL || process.env.BASE_URL || 'http
 module.exports = defineConfig({
   testDir: './tests',
   globalSetup: require.resolve('./tests/global-setup.js'),
+  globalTeardown: require.resolve('./tests/global-teardown.js'),
   fullyParallel: false,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
