@@ -4,6 +4,7 @@
 
 - When all 150 founding spots are taken, the Founding Membership page becomes a waitlist sign-up. Each sign-up is emailed to the team and listed under Users → Founding Members.
 - Automatic tests now cover the page while spots are open and once they are sold out.
+- Every change now runs the shared BlueWorx checks before it can be merged.
 
 ## 1.12.1
 
