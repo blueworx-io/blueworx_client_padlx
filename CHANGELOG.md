@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.13.0
+
+- When all 150 founding spots are taken, the Founding Membership page becomes a waitlist sign-up. Each sign-up is emailed to the team and listed under Users → Founding Members.
+- Automatic tests now cover the page while spots are open and once they are sold out.
+
 ## 1.12.1
 
 - Founding memberships close at 9pm on Monday 30 November, to match the emails, instead of at midnight.
