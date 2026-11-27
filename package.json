@@ -1,0 +1,16 @@
+{
+  "name": "blueworx-client-padlx",
+  "version": "1.13.0",
+  "private": true,
+  "description": "BlueWorx Client | PadlX — founding member sign-up and waitlist plugin.",
+  "scripts": {
+    "lint": "echo \"No JS or PHP lint configured yet. The PHP syntax check in CI still runs.\"",
+    "build": "echo \"No build step: the plugin ships as plain PHP, JS and CSS\" && exit 0",
+    "test": "playwright test --workers=1",
+    "wp:up": "node tests/wp-env.js up",
+    "wp:down": "node tests/wp-env.js down"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.49.0"
+  }
+}

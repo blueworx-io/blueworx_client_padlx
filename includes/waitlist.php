@@ -13,9 +13,18 @@ const WAITLIST_OPTION = 'bwpx_waitlist';
 const SPOTS_CACHE     = 'bwpx_founding_spots';
 
 /**
- * Founding spots left, from SureCart's stock count. Null when SureCart can't say, or isn't limiting them.
+ * Founding spots left. Null when SureCart can't say, or isn't limiting them.
+ * The 'bwpx_founding_spots' filter lets a site, or a test, set the count.
  */
 function founding_spots() {
+	$spots = apply_filters( 'bwpx_founding_spots', surecart_founding_spots() );
+	return is_numeric( $spots ) ? (int) $spots : null;
+}
+
+/**
+ * Founding spots left, from SureCart's stock count, looked up at most once a minute.
+ */
+function surecart_founding_spots() {
 	$cached = get_transient( SPOTS_CACHE );
 	if ( is_array( $cached ) ) {
 		return $cached['spots'];
@@ -54,7 +63,7 @@ function closed_preview() {
 }
 
 function founding_closed() {
-	return closed_preview() || has_passed( FOUNDING_CLOSES );
+	return closed_preview() || has_passed( apply_filters( 'bwpx_founding_closes', FOUNDING_CLOSES ) );
 }
 
 /**
